@@ -49,6 +49,7 @@ async function agregarAuxiliar() {
     ),
     contraseña: "alucard138",
     telefono: "5514010696",
+    rol: "estandar"
   };
 
   let direccion = {

@@ -11,6 +11,7 @@ CREATE TABLE usuario (
 	correo varchar(50) NOT NULL,
 	token varchar(200) NOT NULL,
 	activo BIT NOT NULL DEFAULT 1,
+	rol varchar(50) NOT NULL,
     PRIMARY KEY (idUsuario)
 )
 GO

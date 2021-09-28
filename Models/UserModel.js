@@ -2,8 +2,17 @@ const sequelize = require("../db/db.conexion");
 
 module.exports = class User {
   constructor(usuario) {
-    const { idUsuario, nombre, telefono, apellidos, fechaNac, fechaAlta, correo, token } =
-      usuario;
+    const {
+      idUsuario,
+      nombre,
+      telefono,
+      apellidos,
+      fechaNac,
+      fechaAlta,
+      correo,
+      token,
+      rol,
+    } = usuario;
     this.idUsuario = idUsuario || "";
     this.nombre = nombre || "";
     this.apellidos = apellidos || "";
@@ -12,14 +21,15 @@ module.exports = class User {
     this.correo = correo || "";
     this.token = token || "";
     this.telefono = telefono;
+    this.rol = rol || "estandar";
   }
 
   async insertUser() {
     try {
       const INSERT_USER = `INSERT INTO usuario
-      (nombre, apellidos, fechaNac, fechaAlta, correo, token, telefono)
+      (nombre, apellidos, fechaNac, fechaAlta, correo, token, telefono, rol)
         VALUES
-        (:nombre, :apellidos, :fechaNac, :fechaAlta, :correo, :token, :telefono)`;
+        (:nombre, :apellidos, :fechaNac, :fechaAlta, :correo, :token, :telefono, :rol)`;
       const result = await sequelize.query(INSERT_USER, {
         type: sequelize.QueryTypes.INSERT,
         replacements: {
@@ -32,7 +42,8 @@ module.exports = class User {
             .replace("T", " "),
           correo: this.correo,
           token: this.token,
-          telefono: this.telefono
+          telefono: this.telefono,
+          rol: this.rol,
         },
       });
       return result;
@@ -46,9 +57,9 @@ module.exports = class User {
       const SELECT_ALL = `SELECT * FROM usuario where correo = :correo`;
       const result = await sequelize.query(SELECT_ALL, {
         type: sequelize.QueryTypes.SELECT,
-        replacements:{
-          correo: this.correo
-        }
+        replacements: {
+          correo: this.correo,
+        },
       });
       return result;
     } catch (e) {
