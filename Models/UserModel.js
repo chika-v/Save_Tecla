@@ -24,13 +24,13 @@ module.exports = class User {
     this.rol = rol || "estandar";
   }
 
-  async insertUser() {
+  async insertUser(req, res, next) {
     try {
       const INSERT_USER = `INSERT INTO usuario
       (nombre, apellidos, fechaNac, fechaAlta, correo, token, telefono, rol)
         VALUES
         (:nombre, :apellidos, :fechaNac, :fechaAlta, :correo, :token, :telefono, :rol)`;
-      const result = await sequelize.query(INSERT_USER, {
+      await sequelize.query(INSERT_USER, {
         type: sequelize.QueryTypes.INSERT,
         replacements: {
           nombre: this.nombre,
@@ -46,7 +46,6 @@ module.exports = class User {
           rol: this.rol,
         },
       });
-      return result;
     } catch (e) {
       throw new Error(e.message);
     }
@@ -54,7 +53,7 @@ module.exports = class User {
 
   async getUser() {
     try {
-      const SELECT_ALL = `SELECT * FROM usuario where correo = :correo`;
+      const SELECT_ALL = `SELECT * FROM usuario where correo = :correo and activo = 1`;
       const result = await sequelize.query(SELECT_ALL, {
         type: sequelize.QueryTypes.SELECT,
         replacements: {
@@ -63,7 +62,22 @@ module.exports = class User {
       });
       return result;
     } catch (e) {
-      throw new Error(e.message);
+      throw e.message;
+    }
+  }
+
+  async deleteUser() {
+    try {
+      const SELECT_ALL = `UPDATE usuario SET activo = 0 WHERE correo = :correo`;
+      const result = await sequelize.query(SELECT_ALL, {
+        type: sequelize.QueryTypes.SELECT,
+        replacements: {
+          correo: this.correo,
+        },
+      });
+      return result;
+    } catch (e) {
+      throw e.message;
     }
   }
 };
