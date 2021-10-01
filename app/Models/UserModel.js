@@ -26,7 +26,7 @@ module.exports = class User {
     this.pass = contraseña || "";
   }
 
-  async insertUser() {
+  async insertUser(req, res, next) {
     try {
       const INSERT_USER = `INSERT INTO usuarios
       (idusuario, nombre, apellidos, fechaNac, fechaAlta, correo, token, telefono, rol, pass)
@@ -50,7 +50,6 @@ module.exports = class User {
           pass: this.pass
         },
       });
-      return result;
     } catch (e) {
       throw new Error(e.message);
     }
@@ -58,7 +57,11 @@ module.exports = class User {
 
   async getUser() {
     try {
+<<<<<<< HEAD:app/Models/UserModel.js
       const SELECT_ALL = `SELECT * FROM usuarios where correo = :correo AND pass = :pass`;
+=======
+      const SELECT_ALL = `SELECT * FROM usuario where correo = :correo and activo = 1`;
+>>>>>>> 62b719cf077cf4b0154910baf38f1cf655a4c933:Models/UserModel.js
       const result = await sequelize.query(SELECT_ALL, {
         type: sequelize.QueryTypes.SELECT,
         replacements: {
@@ -68,7 +71,22 @@ module.exports = class User {
       });
       return result;
     } catch (e) {
-      throw new Error(e.message);
+      throw e.message;
+    }
+  }
+
+  async deleteUser() {
+    try {
+      const SELECT_ALL = `UPDATE usuario SET activo = 0 WHERE correo = :correo`;
+      const result = await sequelize.query(SELECT_ALL, {
+        type: sequelize.QueryTypes.SELECT,
+        replacements: {
+          correo: this.correo,
+        },
+      });
+      return result;
+    } catch (e) {
+      throw e.message;
     }
   }
 };

@@ -8,9 +8,7 @@ const address = require("./app/Controllers/AddressController");
 const product = require("./app/Controllers/ProductController");
 const jwt = require("jsonwebtoken");
 const sequelize = require("./db/db.conexion");
-
-const router = require('./routes/router')
-
+const circularJSON = require("circular-json");
 //Middleware globales
 app.use(express.json());
 app.use(cors());
@@ -40,7 +38,46 @@ async function inicioServer() {
     );
   }
 }
-
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+app.get("/", async function (req, res) {
+  res.send("hola");
+});
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+app.post("/insertUser", async (req, res, next) => {
+  try {
+    const us = await user.addUser(req, res, next);
+    res.send(us);
+  } catch (e) {
+    console.log(e);
+    res.send({ error: e.message });
+  }
+});
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+app.get("/validationLogin", async (req, res, next) => {
+  try {
+    const us = await user.validationLogin(req, res, next);
+    res.send(us);
+  } catch (e) {
+    console.log(e);
+    res.send({ error: e.message });
+  }
+});
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+app.delete("/deleteUser", async (req, res, next) => {
+  try {
+    const us = await user.deleteUser(req, res, next);
+    res.send(us);
+  } catch (e) {
+    console.log(e);
+    res.send({ error: e.message });
+  }
+});
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+app.post("/insertProduct", async (req, res, next) => {
+  const pr = await product.addProducto(req, res, next);
+  res.send(pr);
+});
+//::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 async function agregarAuxiliar() {
   let usuario = {
     nombre: "Miguel Angel",
@@ -54,11 +91,11 @@ async function agregarAuxiliar() {
     ),
     contraseña: "alucard138",
     telefono: "5514010696",
-    rol: "estandar"
+    rol: "estandar",
   };
 
   let direccion = {
-    calle: "Avenida Nezahualcoyotl",
+    calle: "",
     colonia: "Santa María Chimalhuacán",
     numeroExt: "13",
     numeroInt: "",
