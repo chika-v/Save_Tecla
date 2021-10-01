@@ -1,6 +1,7 @@
 async function login() {
   const correo = document.getElementById("correo").value
   const contraseña = document.getElementById("contraseña").value
+  console.log(correo)
   try { 
     const makeLogin = await fetch('http://localhost:3000/login', {
       method: 'POST',
@@ -11,11 +12,14 @@ async function login() {
       })
     });
     const parsedLogin = await makeLogin.json()
-    alert(JSON.stringify(parsedLogin))
-    // localStorage.setItem("tokenUsuario", JSON.stringify(parsedLogin.token))
-    // let tokenUsuario = await JSON.parse(localStorage.getItem('tokenUsuario'))
-    // console.log(tokenUsuario)
+    console.log(parsedLogin)
+    if (parsedLogin.success) {
+      return window.location.href = '/inicio'
+    } else {
+      alert("Nombre o contraseña incorrectos")
+    }
   } catch(err) {
+    console.log(err)
     throw new Error("Nombre o contraseña incorrectos")
   }
 }

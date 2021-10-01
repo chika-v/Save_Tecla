@@ -9,6 +9,7 @@ const product = require("./app/Controllers/ProductController");
 const jwt = require("jsonwebtoken");
 const sequelize = require("./db/db.conexion");
 const circularJSON = require("circular-json");
+const router = require('./routes/router')
 //Middleware globales
 app.use(express.json());
 app.use(cors());

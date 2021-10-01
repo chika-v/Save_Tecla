@@ -71,14 +71,13 @@ module.exports.addUser = async (req, res, next) => {
   }
 };
 
-module.exports.getUser = async (req, res, next) => {
+module.exports.getUser = async (usuario) => {
   try {
-    let usuario = new Usuario(req.body);
-    const r = await usuario.getUser();
-    res.status(200).json(JSON.parse(r[0][0]));
-  } catch (e) {
-    res.status(400).json({ message: "Ha ocurrido un error " + e, code: 400 });
-    return;
+    let user = new Usuario(usuario);
+    const r = await user.getUser();
+    return r
+  } catch (err) {
+    throw new Error(err);
   }
 };
 

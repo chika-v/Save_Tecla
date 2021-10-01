@@ -17,9 +17,9 @@ module.exports.getProductos = async () => {
   try {
     let producto = new Producto();
     const res = await producto.getProducts();
-    return await res;
+    return res;
   } catch (err) {
-    console.log("Error desde el modelo" + err);
+    console.log("Error obteniendo productos" + err);
     throw new Error(err);
   }
 };

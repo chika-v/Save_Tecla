@@ -1,35 +1,21 @@
 <%- include("cabeceras/index") %>
-<body>
-  <div class="contenedor_padre">
-    <div class="formContent" id="formContent">
-
-      <!-- Login Form -->
-      <form>
-        <input
-          type="text"
-          id="correo"
-          class="form_input"
-          name="name"
-          placeholder="correo"
-        />
-        <input
-          type="text"
-          id="contraseña"
-          class="form_input"
-          name="password"
-          placeholder="contraseña"
-        /> 
-        <button type="submit" class="form_button" value="Log In" onclick="login()">
-          Ingresar
-       </button>
-      </form>
-
-      <!-- Remind Passowrd -->
-      <div id="formFooter">
-        <a class="underlineHover" href="http://localhost:4000/signUp">Don't have an account?</a>
-      </div>
-    </div>
-  </div>
+<body class="cuerpo">
+  <main class="adorno_fondo">
+      <form class="formulario_login">    
+          <img class="mb-4" src="/img/login-logo.jpeg" alt="">
+          <h1 class="h3 mb-3 fw-normal titulo_login">Ingresa tus datos</h1>
+          <label for="inputEmail" class="visually-hidden">Dirección de correo</label>
+          <input type="email" id="correo" class="form-control" placeholder="Correo" required autofocus>
+          <label for="inputPassword" class="visually-hidden">Contraseña</label>
+          <input type="contraseña" id="contraseña" class="form-control" placeholder="Contraseña" required>
+          <div class="checkbox mb-3">
+              <label>
+                <input type="checkbox" value="remember-me"> Recuerdame
+              </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="button" onclick="login()">Ingresar</button>
+   </form>
+  <main>
   <script src="/js/login.js"></script>
 </body>
 </html>

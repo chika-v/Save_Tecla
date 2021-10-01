@@ -1,0 +1,35 @@
+.cuerpo {
+  margin: 0;
+  background-image: url('../img/fondo_login.jpeg') ;
+}
+.mb-4 {
+  margin-top: 1rem;
+  display : flex;
+  width: 20rem;
+  height: auto;
+  justify-content: center;
+  align-items:center ;
+}
+
+.formulario_login {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin: 30% auto;
+  align-items: center;
+  padding: 1rem;
+}
+
+form input {
+  margin-bottom: 1rem;
+}
+
+.titulo_login {
+  font-family:Georgia, 'Times New Roman', Times, serif;
+}
+
+.adorno_fondo {
+  background-color: #F1141B;
+  color:white;
+}
+
