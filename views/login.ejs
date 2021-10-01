@@ -1,0 +1,35 @@
+<%- include("cabeceras/index") %>
+<body>
+  <div class="contenedor_padre">
+    <div class="formContent" id="formContent">
+
+      <!-- Login Form -->
+      <form>
+        <input
+          type="text"
+          id="correo"
+          class="form_input"
+          name="name"
+          placeholder="correo"
+        />
+        <input
+          type="text"
+          id="contraseña"
+          class="form_input"
+          name="password"
+          placeholder="contraseña"
+        /> 
+        <button type="submit" class="form_button" value="Log In" onclick="login()">
+          Ingresar
+       </button>
+      </form>
+
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" href="http://localhost:4000/signUp">Don't have an account?</a>
+      </div>
+    </div>
+  </div>
+  <script src="/js/login.js"></script>
+</body>
+</html>

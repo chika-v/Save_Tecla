@@ -3,20 +3,25 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const cors = require("cors");
-const user = require("./Controllers/UserController");
-const address = require("./Controllers/AddressController");
-const product = require("./Controllers/ProductController");
+const user = require("./app/Controllers/UserController");
+const address = require("./app/Controllers/AddressController");
+const product = require("./app/Controllers/ProductController");
 const jwt = require("jsonwebtoken");
 const sequelize = require("./db/db.conexion");
+
+const router = require('./routes/router')
 
 //Middleware globales
 app.use(express.json());
 app.use(cors());
 
+
 // Configuraciones globales
-// app.use(express.static(__dirname + '/public'))
-// app.set('view engine', 'ejs')
-// app.set('views', __dirname + '/views')
+app.use(express.static(__dirname + '/public'))
+app.set('view engine', 'ejs')
+app.set('views', __dirname + '/views')
+
+app.use('/', router);
 
 //Levantamos nuestro servidor
 async function inicioServer() {
@@ -109,7 +114,7 @@ async function agregarAuxiliar() {
 }
 
 inicioServer();
-agregarAuxiliar();
+// agregarAuxiliar();
 
 // Usamos routes
 // vistaProductos(app)

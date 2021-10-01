@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 
 const sequelize = new Sequelize(process.env.DB_DATABASE, null, null, {
-  dialect: "mssql",
+  dialect: "postgres",
   server: process.env.DB_HOST,
   port: process.env.DB_PORT,
   dialectOptions: {

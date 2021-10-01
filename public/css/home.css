@@ -1,0 +1,30 @@
+body {
+  margin: 0;
+}
+
+.contenedor_padre {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.formContent {
+  border: 5px solid black;
+  border-radius: 8px;
+  padding: 1rem;
+  width: 20rem;
+}
+
+.formContent form {
+  height: 10rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.form_input {
+  margin-bottom: 1rem;
+  padding: 0.3rem; 
+}
+
