@@ -50,6 +50,7 @@ module.exports = class User {
           pass: this.pass
         },
       });
+      return result
     } catch (e) {
       throw new Error(e.message);
     }

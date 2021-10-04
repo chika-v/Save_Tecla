@@ -1,4 +1,5 @@
 //Importo los modulos necesarios
+const db = require("./db/db.conexion");
 const express = require("express");
 const app = express();
 require("dotenv").config();
@@ -25,13 +26,13 @@ app.use('/', router);
 //Levantamos nuestro servidor
 async function inicioServer() {
   try {
-    await sequelize.authenticate();
     console.log("Conexión estabilizada correctamente");
     app.listen(process.env.PORT, function () {
       console.log(
         `Sistema iniciado en http://${process.env.HOST}:${process.env.PORT}`
       );
     });
+    await db.sequelize.sync();
   } catch (error) {
     console.error(
       "No se pudo conectar correctamebte con la Base de datos:",

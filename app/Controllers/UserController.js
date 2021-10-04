@@ -66,6 +66,7 @@ module.exports.addUser = async (req, res, next) => {
       .json({ message: "Usuario registrado correctamente", code: 200 });
     return;
   } catch (e) {
+    //console.log(e)
     res.status(400).json({ message: "Ha ocurrido un error " + e, code: 400 });
     return;
   }
