@@ -86,4 +86,12 @@ module.exports = class User {
       throw e.message;
     }
   }
+
+  async generaToken(data) {
+    const resultado = jwt.sign({
+        data} , ''+process.env.SECRET_KEY
+    ) //Tiempo maximo 15 minutos de validez
+    console.log(resultado.length)
+    return resultado
+}
 };

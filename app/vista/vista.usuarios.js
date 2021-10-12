@@ -24,6 +24,7 @@ const buscarUsuario = async (req, res) => {
   const datosDelUsuario = req.body 
   try {
     const usuario = await ControladorUsuarios.getUser(datosDelUsuario)
+    console.log("Está corriendo")
     console.log(usuario)
     if (usuario.length >= 1 ) {
       res.status(200).json({ success: true, message: 'Usuario encontrado con éxito', usuario: usuario})
