@@ -1,6 +1,24 @@
 <%- include("cabeceras/carrito") %>
 <body>
   <main>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark nav-fixed sticky-top" id="navegacion">
+      <div class="container-fluid">
+          <a class="navbar-brand" href="/inicio">Chivirika's Shop</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+              <div class="navbar-nav">
+                  <a class="nav-link active" aria-current="page" href="/inicio"><i class="fas fa-home"></i> Inicio</a>
+                  <a class="nav-link" href="/carrito">Features</a>
+                  <a class="nav-link" href="/carrito">Pricing</a>
+                  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
+                      <i class="fas fa-shopping-cart"></i>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </nav>
     <div class="basket">
       <div class="basket-module">
         <label for="promo-code">Enter a promotional code</label>

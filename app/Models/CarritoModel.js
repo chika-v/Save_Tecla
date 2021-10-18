@@ -1,9 +1,9 @@
 //Importamos los modulos requeridos
-const Productos = require('../../db/db.modelo.productos')
+const Carrito = require('../../db/db.modelo.carrito')
 
 module.exports.buscarProductos = async ()=> {
   try {
-      const productos = await Productos.findAll()
+      const productos = await Carrito.findAll()
       return productos
   }catch (error){
       console.log("Error obtener productos en modelo")
@@ -14,18 +14,18 @@ module.exports.buscarProductos = async ()=> {
 
 module.exports.crearProducto = async (producto)=> {
   try {
-      let productoNuevo = await Productos.create(producto)
+      let productoNuevo = await Carrito.create(producto)
       console.log(productoNuevo)
       return productoNuevo
   }catch (error){
-      console.log("Error al crear usuario en modelo")
+      console.log("Error al crear pruducto en carrito")
       throw new Error (error)
   }
 }
 
 module.exports.borrarProducto = async (idProducto)=> {
   try {
-      let productoBorrado = await Productos.destroy({where: {id: `${idProducto}`}})
+      let productoBorrado = await Carrito.destroy({where: {id: `${idProducto}`}})
       return productoBorrado
   }catch (error){
       console.log("Error al borrar producto en modelo")

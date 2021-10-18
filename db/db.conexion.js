@@ -1,27 +1,19 @@
-const dbConfig = require("./db.config.js");
+const Sequelize = require('sequelize');
 
-const Sequelize = require("sequelize");
-const sequelize = new Sequelize(dbConfig.DB, null, null, {
-  dialect: dbConfig.dialect,
-  host: dbConfig.HOST,
-  port: 1433,
-
+const sequelize = new Sequelize('tecla_products', null, null, {
+  dialect: 'mssql',
+  server: process.env.DB_HOST,
+  port: process.env.DB_PORT,
   dialectOptions: {
     authentication: {
       type: 'default',
       options: {
         encrypt: true,
-        userName: dbConfig.USER,
-        password: dbConfig.PASSWORD
+        userName: process.env.DB_USR,
+        password: process.env.DB_PASS
       }
     },
   }
+})
 
-});
-
-const db = {};
-
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
-
-module.exports = db;
+module.exports = sequelize;

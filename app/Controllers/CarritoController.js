@@ -1,10 +1,10 @@
-const modeloProductos = require('../Models/ProductModel.js')
+const modeloCarrito = require('../Models/CarritoModel.js')
 
 //Exportamos nuestros Modulos
 
 module.exports.obtainProducts = async (producto) => {
   try {
-    const productos = await modeloProductos.buscarProductos()
+    const productos = await modeloCarrito.buscarProductos()
     return productos
   } catch (err) {
     console.log("Error obteniendo productos en el controlador" + err);
@@ -14,7 +14,7 @@ module.exports.obtainProducts = async (producto) => {
 
 module.exports.addProducto = async (producto) => {
   try {
-    const productoNuevo = await modeloProductos.crearProducto(producto)
+    const productoNuevo = await modeloCarrito.crearProducto(producto)
     console.log(productoNuevo);
     return productoNuevo
   } catch (err) {
@@ -25,7 +25,7 @@ module.exports.addProducto = async (producto) => {
 
 module.exports.deleteProduct = async (idProducto)=> {
   try {
-      let result = await modeloProductos.borrarProducto(idProducto)
+      let result = await modeloCarrito.borrarProducto(idProducto)
       return result
   }catch (error) {
       console.log("Error al borrar producto en controlador", error)

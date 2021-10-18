@@ -1,44 +1,54 @@
-const ControladorUsuarios = require('../Controllers/UserController')
+//Importamos los modulos que vamos a utilizar
+const midd = require('../../middlewares/midd.usuarios')
+const ControladorUsuarios = require('../Controllers/UserController.js')
+const cors = require('cors')
 
-const login = async (req, res) => {
-  try {
-    console.log(`Renderizando el login`)
-    res.render('login')
-  } catch (err) {
-    console.log(err)
-    res.status(400).json({ message: "Error en el ingreso al login", error: err})
-  }
-}
+//Exportar los modulos para ser usados.
+module.exports = async (app)=>{
+    app.get('/login', async (req, res) => {
+      try {
+        console.log(`Renderizando el login`)
+        res.render('login')
+      } catch (err) {
+        console.log(err)
+        res.status(400).json({ message: "Error en el ingreso al login", error: err})
+      }
+    })
 
-const crearUsuario = async (req, res) => {
-  const usuario = req.body
-  try {
-    const usuarioNuevo = await ControladorUsuarios.addUser(usuario)
-    res.status(200).json({ message: 'Usuario creado exitosamente', usuario: usuarioNuevo})
-  } catch (err) {
-    res.status(400).json({ message: 'Hubo un error creando el usuario', error: err})
-  }
-}
+    app.post('/usuario', midd.validarDatosDeUsuario, async (req, res) => {
+      const usuario = req.body
+      try {
+        const usuarioNuevo = await ControladorUsuarios.addUser(usuario)
+        res.status(200).json({ message: 'Usuario creado exitosamente', usuario: usuarioNuevo})
+      } catch (err) {
+        res.status(400).json({ message: 'Hubo un error creando el usuario en la vista', error: err})
+      }
+    })
 
-const buscarUsuario = async (req, res) => {
-  const datosDelUsuario = req.body 
-  try {
-    const usuario = await ControladorUsuarios.getUser(datosDelUsuario)
-    console.log("Está corriendo")
-    console.log(usuario)
-    if (usuario.length >= 1 ) {
-      res.status(200).json({ success: true, message: 'Usuario encontrado con éxito', usuario: usuario})
-    } else {
-      res.status(300).json({ success: false, message: 'Usuario no encontrado', usuario: usuario})
-    }
-  } catch(err) {
-    console.log(err)
-    res.status(400).json({ message: 'Hubo un error buscando al usuario', error: err})
-  }
-}
+    app.post('/ingresar', midd.validarLogin, async (req, res) => {
+      const usuario = req.body
+      try {
+        const usuarioExistente = await ControladorUsuarios.findUser(usuario)
 
-module.exports = {
-  login,
-  crearUsuario,
-  buscarUsuario
+        // Genera token y lo regresa en la respuesta si el usuario existe
+        if(usuarioExistente) {
+          let validacion = await ControladorUsuarios.generaToken(usuarioExistente)
+          res.status(200).json({ message: 'Usuario ingresado exitosamente', token: validacion})
+        }
+      } catch (err) {
+        res.status(400).json({ message: 'Usuario no registrado', error: err})
+      }
+    })
+
+    app.delete('/usuario/:id', midd.validarLogin, async (req, res) => {
+      const idUsuario = req.params.id
+      try {
+        const usuarioBorrado = await ControladorUsuarios.deleteUser(idUsuario)
+        res.status(200).json({ message: 'Usuario borrado exitosamente', usuario: usuarioBorrado})
+      } catch (err) {
+        res.status(400).json({ message: 'Problema borrando al usuario', error: err})
+      }
+    })
+
+
 }

@@ -9,28 +9,23 @@ async function traerProductos() {
 }
 //-----------------------------------------------------------------------------
 async function addCar(a) {
-  const { title, id } = a;
-  let carrito = JSON.parse(await localStorage.getItem("car")) || [];
-  let pos = carrito.findIndex((art) => art.id === id);
-  let msg = "agregado";
-  console.log(id, carrito, pos);
-  if (pos !== -1) {
-    const { cantidad } = carrito[pos];
-    carrito.splice(pos, 1, {
-      ...carrito[pos],
-      cantidad: cantidad + 1,
-    });
-    msg = "actualizado";
-  } else {
-    carrito.push({
+  const { title, id, thumbnail, price } = a;
+  const insertCar = await fetch('http://localhost:3000/carrito', {
+    method: 'POST',
+    headers: {"Content-type": "application/json;charset=UTF-8"},
+    body: JSON.stringify({
       title,
-      id,
-      cantidad: 1,
-    });
+      price,
+      img: thumbnail,
+      categorie_id: id,
+    })
+  });
+  const parsedProducto = await insertCar.json()
+  if (parsedProducto.producto) {
+    alert('Producto agregado con éxito a la tabla carrito en la db')
+  } else {
+    alert('hubo un error creando producto')
   }
-  alert(`${title} ${msg} correctamente.`);
-  localStorage.setItem("car", JSON.stringify(carrito));
-  retornarCantidad(id);
 }
 //-----------------------------------------------------------------------------
 async function deleteCar(a) {

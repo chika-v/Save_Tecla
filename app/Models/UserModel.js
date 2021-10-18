@@ -1,97 +1,37 @@
-const sequelize = require("../../db/db.conexion");
+//Importamos los modulos requeridos
+const Usuarios = require('../../db/db.modelo.usuarios')
 
-module.exports = class User {
-  constructor(usuario) {
-    const {
-      idUsuario,
-      nombre,
-      telefono,
-      apellidos,
-      fechaNac,
-      fechaAlta,
-      correo,
-      token,
-      rol,
-      contraseña
-    } = usuario;
-    this.idUsuario = idUsuario || "";
-    this.nombre = nombre || "";
-    this.apellidos = apellidos || "";
-    this.fechaNac = fechaNac || new Date();
-    this.fechaAlta = fechaAlta || new Date();
-    this.correo = correo || "";
-    this.token = token || "";
-    this.telefono = telefono;
-    this.rol = rol || "estandar";
-    this.pass = contraseña || "";
+
+//Exportamos los modulos
+
+module.exports.encontrarUsuario = async (usuario)=> {
+  try {
+      let usuarioEncontrado = await Usuarios.findOne({where: {usuario: `${usuario.usuario}`, pass: `${usuario.pass}`}})
+      console.log(usuarioEncontrado)
+      return usuarioEncontrado
+  }catch (error){
+      console.log("Error al encontrar usuario en modelo")
+      throw new Error (error)
   }
-
-  async insertUser(req, res, next) {
-    try {
-      const INSERT_USER = `INSERT INTO usuarios
-      (idusuario, nombre, apellidos, fechaNac, fechaAlta, correo, token, telefono, rol, pass)
-        VALUES
-        (:idusuario, :nombre, :apellidos, :fechaNac, :fechaAlta, :correo, :token, :telefono, :rol, :pass)`;
-      const result = await sequelize.query(INSERT_USER, {
-        type: sequelize.QueryTypes.INSERT,
-        replacements: {
-          idusuario: this.idUsuario,
-          nombre: this.nombre,
-          apellidos: this.apellidos,
-          fechaNac: this.fechaNac.toISOString().slice(0, 19).replace("T", " "),
-          fechaAlta: this.fechaAlta
-            .toISOString()
-            .slice(0, 19)
-            .replace("T", " "),
-          correo: this.correo,
-          token: this.token,
-          telefono: this.telefono,
-          rol: this.rol,
-          pass: this.pass
-        },
-      });
-      return result
-    } catch (e) {
-      throw new Error(e.message);
-    }
-  }
-
-  async getUser() {
-    try {
-      const SELECT_ALL = `SELECT * FROM usuarios where correo = :correo AND pass = :pass`;
-      const result = await sequelize.query(SELECT_ALL, {
-        type: sequelize.QueryTypes.SELECT,
-        replacements: {
-          correo: this.correo,
-          pass: this.pass
-        },
-      });
-      return result;
-    } catch (e) {
-      throw e.message;
-    }
-  }
-
-  async deleteUser() {
-    try {
-      const SELECT_ALL = `UPDATE usuario SET activo = 0 WHERE correo = :correo`;
-      const result = await sequelize.query(SELECT_ALL, {
-        type: sequelize.QueryTypes.SELECT,
-        replacements: {
-          correo: this.correo,
-        },
-      });
-      return result;
-    } catch (e) {
-      throw e.message;
-    }
-  }
-
-  async generaToken(data) {
-    const resultado = jwt.sign({
-        data} , ''+process.env.SECRET_KEY
-    ) //Tiempo maximo 15 minutos de validez
-    console.log(resultado.length)
-    return resultado
 }
-};
+
+module.exports.crearUsuario = async (usuario)=> {
+  try {
+      let usuarioNuevo = await Usuarios.create(usuario)
+      console.log(usuarioNuevo)
+      return usuarioNuevo
+  }catch (error){
+      console.log("Error al crear usuario en modelo")
+      throw new Error (error)
+  }
+}
+
+module.exports.borrarUsuario = async (idUsuario)=> {
+  try {
+      let usuarioBorrado = await Usuarios.destroy({where: {id: `${idUsuario}`}})
+      return usuarioBorrado
+  }catch (error){
+      console.log("Error al borrar usuario en modelo")
+      throw new Error (error)
+  }
+}

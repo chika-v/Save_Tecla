@@ -1,19 +1,19 @@
 async function login() {
-  const correo = document.getElementById("correo").value
+  const usuario = document.getElementById("usuario").value
   const contraseña = document.getElementById("contraseña").value
-  console.log(correo)
+  console.log(usuario)
   try { 
-    const makeLogin = await fetch('http://localhost:3000/login', {
+    const makeLogin = await fetch('http://localhost:3000/ingresar', {
       method: 'POST',
       headers: {"Content-type": "application/json;charset=UTF-8"},
       body: JSON.stringify({
-        correo,
-        contraseña
+        usuario,
+        pass: contraseña
       })
     });
     const parsedLogin = await makeLogin.json()
     console.log(parsedLogin)
-    if (parsedLogin.success) {
+    if (parsedLogin.token) {
       return window.location.href = '/inicio'
     } else {
       alert("Nombre o contraseña incorrectos")
